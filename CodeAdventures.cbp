@@ -15,7 +15,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="../allegro/lib/liballegro_monolith-debug.dll.a" />
+					<Add library="lib/allegro/lib/liballegro_monolith-debug.dll.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -28,13 +28,13 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../allegro/lib/liballegro_monolith.dll.a" />
+					<Add library="lib/allegro/lib/liballegro_monolith.dll.a" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="../allegro/include" />
+			<Add directory="lib/allegro/include" />
 		</Compiler>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
