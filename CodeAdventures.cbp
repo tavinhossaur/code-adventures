@@ -39,6 +39,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="utils/initializers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/initializers.h" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
