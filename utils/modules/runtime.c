@@ -10,33 +10,70 @@
 
 /*
 * Função que atualiza a posição do personagem e faz a alteração do bitmap de movimento com base
-* na direção em que o personagem está andando, utilizando um "delay" para fazer uma
-* animação de movimentação do personagem.
+* na direção em que o personagem está ou estava andando verificando também se devido a uma colisão,
+* essa tecla não esta bloqueada.
+*
+* O uso do ANIMATIOn_DELAY é para fazer uma troca mais devagar das sprites de movimento do personagem.
+*
+* obs: precisam ser todos "if" ao invés de "else if" para que a movimentação diagonal seja possível.
 */
 void updateCharacterMovement(Character *character, int frameCounter, ALLEGRO_BITMAP **movementList, bool blockedKey[], unsigned char key[])
 {
+    bool isMoving = false;
+
     if (key[ALLEGRO_KEY_W] && !blockedKey[W])
     {
         character -> posY--;
         character -> currentMovementBitmap = (frameCounter / ANIMATION_DELAY % 2 == 0) ? movementList[WALKING_UP_1] : movementList[WALKING_UP_2];
+        character -> lastDirection = W;
+
+        isMoving = true;
     }
 
     if (key[ALLEGRO_KEY_A] && !blockedKey[A])
     {
         character -> posX--;
         character -> currentMovementBitmap = (frameCounter / ANIMATION_DELAY % 2 == 0) ? movementList[WALKING_LEFT_1] : movementList[WALKING_LEFT_2];
+        character -> lastDirection = A;
+
+        isMoving = true;
     }
 
     if (key[ALLEGRO_KEY_S] && !blockedKey[S])
     {
         character -> posY++;
         character -> currentMovementBitmap = (frameCounter / ANIMATION_DELAY % 2 == 0) ? movementList[WALKING_DOWN_1] : movementList[WALKING_DOWN_2];
+        character -> lastDirection = S;
+
+        isMoving = true;
     }
 
     if (key[ALLEGRO_KEY_D] && !blockedKey[D])
     {
         character -> posX++;
         character -> currentMovementBitmap = (frameCounter / ANIMATION_DELAY % 2 == 0) ? movementList[WALKING_RIGHT_1] : movementList[WALKING_RIGHT_2];
+        character -> lastDirection = D;
+
+        isMoving = true;
+    }
+
+    if(!isMoving)
+    {
+        switch (character -> lastDirection)
+        {
+            case W:
+                character -> currentMovementBitmap = movementList[STANDBY_UP];
+                break;
+            case A:
+                character -> currentMovementBitmap = movementList[STANDBY_LEFT];
+                break;
+            case S:
+                character -> currentMovementBitmap = movementList[STANDBY_DOWN];
+                break;
+            case D:
+                character -> currentMovementBitmap = movementList[STANDBY_RIGHT];
+                break;
+        }
     }
 
     blockedKey[W] = false;

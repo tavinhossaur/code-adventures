@@ -10,8 +10,8 @@
 
 #include "utils/headers/dependencies.h"
 
-#define SEEN 1
-#define RELEASED 2
+#define KEY_PRESSED true
+#define KEY_RELEASED false
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
     // int mouseClickPositionY = 0;
 
     // Controle para bloquear e desbloquear o uso das teclas de movimento
-    bool blockedKey[4] = {false, false, false, false};
+    bool blockedKey[MAX_MOVEMENT_KEYS] = {false, false, false, false};
 
     unsigned char key[ALLEGRO_KEY_MAX];
 
@@ -38,22 +38,22 @@ int main()
     if (initializeGame(display, queue, timer)) printf("- Jogo carregado com sucesso.\n");
 
     // Inicializando variáveis de controle do som do jogo
-    ALLEGRO_VOICE* voice = al_create_voice(44100, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
-    ALLEGRO_MIXER* mixer = al_create_mixer(44100, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
+    ALLEGRO_VOICE* voice = al_create_voice(FREQUENCY, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
+    ALLEGRO_MIXER* mixer = al_create_mixer(FREQUENCY, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
 
     // Inicializando variáveis dos recursos utilizados (sprites, musicas, fontes)
     ALLEGRO_BITMAP* background = al_load_bitmap(BACKGROUND_FILE);
-    ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream(MUSIC_THEME, 4, 2048);
-    ALLEGRO_FONT* font = al_load_ttf_font(TEXT_FONT, 30, 0);
+    ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream(MUSIC_THEME, SONG_BUFFER, SAMPLES);
+    ALLEGRO_FONT* font = al_load_ttf_font(TEXT_FONT, FONT_SIZE, 0);
 
     // Carregando a lista de colisões do mapa
     CollisionBlock *collisions = getCollisionBlocks();
 
-    // Carregando a lista de bitmaps dos movimentos do personagem
-    ALLEGRO_BITMAP **movementList = getCharacterMovementSprites("boy");
+    // Carregando a lista de bitmaps dos movimentos do personagem com base no gênero escolhido
+    ALLEGRO_BITMAP **movementList = getCharacterMovementSprites("girl");
 
     // Criando um personagem
-    Character character = {15, 338, movementList[STANDBY_DOWN]};
+    Character character = {CHARACTER_START_X, CHARACTER_START_Y, S, movementList[STANDBY_DOWN]};
 
     // Inicializando a música do jogo
     if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
@@ -72,11 +72,11 @@ int main()
 
         switch (event.type) {
             case ALLEGRO_EVENT_KEY_DOWN:
-                key[event.keyboard.keycode] = SEEN | RELEASED;
+                key[event.keyboard.keycode] = KEY_PRESSED | KEY_RELEASED;
                 break;
 
             case ALLEGRO_EVENT_KEY_UP:
-                key[event.keyboard.keycode] &= RELEASED;
+                key[event.keyboard.keycode] &= KEY_RELEASED;
                 break;
 
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
@@ -95,7 +95,7 @@ int main()
         {
             int i;
 
-            for(i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= SEEN;
+            for(i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= KEY_PRESSED;
 
             // Limpa a tela
             al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -110,7 +110,13 @@ int main()
             updateCharacterMovement(&character, frameCounter, movementList, blockedKey, key);
 
             // Desenha o personagem
-            al_draw_scaled_bitmap(character.currentMovementBitmap, 0, 0, al_get_bitmap_width(character.currentMovementBitmap), al_get_bitmap_height(character.currentMovementBitmap), character.posX-9, character.posY-18, 18, 22, 0);
+            al_draw_scaled_bitmap(
+                character.currentMovementBitmap,
+                0, 0,
+                al_get_bitmap_width(character.currentMovementBitmap),
+                al_get_bitmap_height(character.currentMovementBitmap),
+                character.posX - CHARACTER_X_HITBOX_AJUST, character.posY - CHARACTER_Y_HITBOX_AJUST,
+                CHARACTER_WIDTH, CHARACTER_HEIGHT, 0);
 
             // Desenha todas as colisões (não estará na versão final do jogo)
             // drawCollision(collisions);
