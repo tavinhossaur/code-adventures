@@ -39,10 +39,20 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="utils/initializers.c">
+		<Unit filename="res/database/collision_data.csv" />
+		<Unit filename="utils/headers/builders.h" />
+		<Unit filename="utils/headers/dependencies.h" />
+		<Unit filename="utils/headers/initializers.h" />
+		<Unit filename="utils/headers/runtime.h" />
+		<Unit filename="utils/modules/builders.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="utils/initializers.h" />
+		<Unit filename="utils/modules/initializers.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/modules/runtime.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
