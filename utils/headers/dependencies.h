@@ -12,8 +12,8 @@
 #define SONG_BUFFER 4
 #define FREQUENCY 44100
 
-#define FPS 60
-#define MAX_COLLISIONS 52
+#define MAX_FPS 60
+#define MAX_COLLISIONS 36
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4
 
@@ -22,14 +22,15 @@
 #define CHARACTER_START_Y 338
 #define CHARACTER_WIDTH 18
 #define CHARACTER_HEIGHT 22
-#define CHARACTER_X_HITBOX_AJUST 9
-#define CHARACTER_Y_HITBOX_AJUST 18
+#define CHARACTER_X_HITBOX_ADJUST 9
+#define CHARACTER_Y_HITBOX_ADJUST 18
 
 typedef struct Character
 {
     int posX;
     int posY;
     int lastDirection;
+    bool isMoving;
     ALLEGRO_BITMAP* currentMovementBitmap;
 
 } Character;
@@ -50,5 +51,5 @@ enum Movements
     STANDBY_UP, WALKING_UP_1, WALKING_UP_2,
     STANDBY_LEFT, WALKING_LEFT_1, WALKING_LEFT_2,
     STANDBY_DOWN, WALKING_DOWN_1, WALKING_DOWN_2,
-    STANDBY_RIGHT, WALKING_RIGHT_1, WALKING_RIGHT_2,
+    STANDBY_RIGHT, WALKING_RIGHT_1, WALKING_RIGHT_2
 };

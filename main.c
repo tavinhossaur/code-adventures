@@ -32,7 +32,7 @@ int main()
     // Inicializando variáveis principais para o funcionamento do jogo
     ALLEGRO_DISPLAY* display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
-    ALLEGRO_TIMER* timer = al_create_timer(1.0 / FPS);
+    ALLEGRO_TIMER* timer = al_create_timer(1.0 / MAX_FPS);
 
     // Instalando addons do Allegro e criando eventos
     if (initializeGame(display, queue, timer)) printf("- Jogo carregado com sucesso.\n");
@@ -50,13 +50,13 @@ int main()
     CollisionBlock *collisions = getCollisionBlocks();
 
     // Carregando a lista de bitmaps dos movimentos do personagem com base no gênero escolhido
-    ALLEGRO_BITMAP **movementList = getCharacterMovementSprites("girl");
+    ALLEGRO_BITMAP **movementList = getCharacterMovementSprites("boy");
 
     // Criando um personagem
-    Character character = {CHARACTER_START_X, CHARACTER_START_Y, S, movementList[STANDBY_DOWN]};
+    Character character = {CHARACTER_START_X, CHARACTER_START_Y, S, false, movementList[STANDBY_DOWN]};
 
     // Inicializando a música do jogo
-    if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
+    // if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
 
     // Começando timer do jogo
     al_start_timer(timer);
@@ -70,18 +70,19 @@ int main()
         ALLEGRO_EVENT event;
         al_wait_for_event(queue, &event);
 
-        switch (event.type) {
-            case ALLEGRO_EVENT_KEY_DOWN:
-                key[event.keyboard.keycode] = KEY_PRESSED | KEY_RELEASED;
-                break;
+        switch (event.type)
+        {
+        case ALLEGRO_EVENT_KEY_DOWN:
+            key[event.keyboard.keycode] = KEY_PRESSED | KEY_RELEASED;
+            break;
 
-            case ALLEGRO_EVENT_KEY_UP:
-                key[event.keyboard.keycode] &= KEY_RELEASED;
-                break;
+        case ALLEGRO_EVENT_KEY_UP:
+            key[event.keyboard.keycode] &= KEY_RELEASED;
+            break;
 
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                return 0;
-                break;
+        case ALLEGRO_EVENT_DISPLAY_CLOSE:
+            return 0;
+            break;
 
             /* case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
                 if(event.mouse.button & 1) {
@@ -93,6 +94,8 @@ int main()
         // Lógica em tempo de execução (main runtime script)
         if (event.type == ALLEGRO_EVENT_TIMER)
         {
+            if(frameCounter > 60) frameCounter = 0;
+
             int i;
 
             for(i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= KEY_PRESSED;
@@ -115,7 +118,7 @@ int main()
                 0, 0,
                 al_get_bitmap_width(character.currentMovementBitmap),
                 al_get_bitmap_height(character.currentMovementBitmap),
-                character.posX - CHARACTER_X_HITBOX_AJUST, character.posY - CHARACTER_Y_HITBOX_AJUST,
+                character.posX - CHARACTER_X_HITBOX_ADJUST, character.posY - CHARACTER_Y_HITBOX_ADJUST,
                 CHARACTER_WIDTH, CHARACTER_HEIGHT, 0);
 
             // Desenha todas as colisões (não estará na versão final do jogo)

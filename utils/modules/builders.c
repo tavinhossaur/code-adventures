@@ -75,14 +75,14 @@ CollisionBlock * getCollisionBlocks()
 *
 * returns -> um ponteiro para um ponteiro de ALLEGRO_BITMAP (uma lista de ALLEGRO_BITMAPs)
 */
-ALLEGRO_BITMAP ** getCharacterMovementSprites(const char *gender)
+ALLEGRO_BITMAP ** getCharacterMovementSprites(char *gender)
 {
     static ALLEGRO_BITMAP* list[MAX_MOVEMENTS];
 
     // String do caminho do arquivo
     char path[MAX_LENGTH];
 
-    const char *movementNames[] =
+    char *movementNames[] =
     {
         "standby_up", "walking_up_1", "walking_up_2",
         "standby_left", "walking_left_1", "walking_left_2",
