@@ -16,6 +16,7 @@
 #define MAX_COLLISIONS 36
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4
+#define MAX_ALTERNATIVES 4
 
 // Personagem
 #define CHARACTER_START_X 15
@@ -44,7 +45,16 @@ typedef struct CollisionBlock
 
 } CollisionBlock;
 
+typedef struct Challenge
+{
+    char *texto;
+    int options[MAX_ALTERNATIVES];
+
+} Challenge;
+
 enum Keys { W, A, S, D };
+
+enum Alternatives { A, B, C, D };
 
 enum Movements
 {

@@ -1,3 +1,5 @@
 CollisionBlock * getCollisionBlocks();
 
-ALLEGRO_BITMAP ** getCharacterMovementSprites(const char *gender);
+ALLEGRO_BITMAP ** getCharacterMovementSprites(char *gender);
+
+Challenge * getChallenges();

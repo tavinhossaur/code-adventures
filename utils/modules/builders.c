@@ -105,3 +105,10 @@ ALLEGRO_BITMAP ** getCharacterMovementSprites(char *gender)
 
     return list;
 }
+
+Challenge * getChallenges()
+{
+
+    static Challenge* list[8];
+
+}

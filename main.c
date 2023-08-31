@@ -56,7 +56,7 @@ int main()
     Character character = {CHARACTER_START_X, CHARACTER_START_Y, S, false, movementList[STANDBY_DOWN]};
 
     // Inicializando a música do jogo
-    // if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
+    if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
 
     // Começando timer do jogo
     al_start_timer(timer);
