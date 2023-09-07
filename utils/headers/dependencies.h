@@ -54,7 +54,7 @@ typedef struct Challenge
 
 enum Keys { W, A, S, D };
 
-enum Alternatives { A, B, C, D };
+//enum Alternatives { A, B, C, D };
 
 enum Movements
 {
