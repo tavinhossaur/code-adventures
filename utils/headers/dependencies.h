@@ -4,7 +4,7 @@
 #define BACKGROUND_FILE "res/sprites/city_background.png"
 
 #define TEXT_FONT "res/fonts/Monaco.ttf"
-#define FONT_SIZE 30
+#define FONT_SIZE 20
 
 // Música do jogo
 #define MUSIC_THEME "res/audio/tildeath.ogg"

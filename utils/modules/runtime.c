@@ -123,3 +123,8 @@ void drawCollision(CollisionBlock collisions[])
         al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,5,5));
     }
 }
+
+void createDialogBar(){
+
+    ALLEGRO_BITMAP* dialogBar = al_load_bitmap("res/sprites/interface/dialog_bar.png");
+}

@@ -55,6 +55,9 @@ int main()
     // Criando um personagem
     Character character = {CHARACTER_START_X, CHARACTER_START_Y, S, false, movementList[STANDBY_DOWN]};
 
+    // Carregando a lista de colisões do mapa
+    // Challenge *challenges = getChallenges();
+
     // Inicializando a música do jogo
     if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
 
@@ -105,6 +108,9 @@ int main()
 
             // Desenha o mapa
             al_draw_bitmap(background, 0, 0, 0);
+
+            al_draw_bitmap(createDialogBar(), 150, 540, 0);
+            al_draw_text(font, al_map_rgb(255, 255, 255), 170, 560, 0, "Hello World!");
 
             // Lógica de detecção de colisões
             runCollisionDetection(collisions, character, blockedKey);
