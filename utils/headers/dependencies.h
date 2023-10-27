@@ -1,8 +1,17 @@
+// Resolução
 #define DISPLAY_WIDTH 768
 #define DISPLAY_HEIGHT 641
 
-#define BACKGROUND_FILE "res/sprites/city_background.png"
+// Sprites
+#define BACKGROUND_FILE "res/sprites/game_background.png"
+#define MENU_BACKGROUND_FILE "res/sprites/title_background.png"
+#define MENU_SELECTOR_GENDER_GIRL "res/sprites/menu_gender_selection_girl.png"
+#define MENU_SELECTOR_GENDER_BOY "res/sprites/menu_gender_selection_boy.png"
+#define PAUSE_BACKGROUND "res/sprites/pause_background.png"
+#define CHALLENGE_BACKGROUND "res/sprites/challenges_background.png"
+#define DIALOG_BAR "res/sprites/interface/dialog_bar.png"
 
+// Fonte
 #define TEXT_FONT "res/fonts/Monaco.ttf"
 #define FONT_SIZE 20
 
@@ -12,11 +21,15 @@
 #define SONG_BUFFER 4
 #define FREQUENCY 44100
 
+// Limitadores
 #define MAX_FPS 60
 #define MAX_COLLISIONS 36
+#define MAX_HOUSES 10
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4
 #define MAX_ALTERNATIVES 4
+#define MAX_QUESTIONS 10
+#define MAX_QUESTION_TEXT_LINES 8
 
 // Personagem
 #define CHARACTER_START_X 15
@@ -28,6 +41,7 @@
 
 typedef struct Character
 {
+    char* name;
     int posX;
     int posY;
     int lastDirection;
@@ -38,23 +52,30 @@ typedef struct Character
 
 typedef struct CollisionBlock
 {
-    int topLeftX;
-    int topLeftY;
-    int bottomRightX;
-    int bottomRightY;
+    int topLeftX, topLeftY, bottomRightX, bottomRightY;
 
 } CollisionBlock;
 
+typedef struct HouseDoor
+{
+    int topLeftX, topLeftY, bottomRightX, bottomRightY;
+    bool alreadyEntered;
+
+} HouseDoor;
+
 typedef struct Challenge
 {
-    char *texto;
-    int options[MAX_ALTERNATIVES];
+    char *alternatives[MAX_ALTERNATIVES];
+    char *questionText[MAX_QUESTION_TEXT_LINES];
+    int correctAnswer;
+    bool isChallengeCompleted;
 
 } Challenge;
 
-enum Keys { W, A, S, D };
-
-//enum Alternatives { A, B, C, D };
+enum Keys { KEY_W, KEY_A, KEY_S, KEY_D };
+enum Screens { TITLE_SCREEN, GAME_SCREEN, PAUSE_SCREEN, OPTIONS_SCREEN, CREDITS_SCREEN, CHALLENGES_SCREEN };
+enum Genders { BOY, GIRL };
+enum Alternatives { A, B, C, D };
 
 enum Movements
 {

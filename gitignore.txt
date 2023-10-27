@@ -1,0 +1,5 @@
+### ALLEGRO LOGS ###
+allegro.log
+
+### TEMP FILES ###
+CodeAdventures.depend

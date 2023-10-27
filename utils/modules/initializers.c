@@ -37,8 +37,14 @@ bool initializeMusic(ALLEGRO_VOICE* voice, ALLEGRO_MIXER* mixer, ALLEGRO_AUDIO_S
 bool initializeGame(ALLEGRO_DISPLAY* display, ALLEGRO_EVENT_QUEUE* queue, ALLEGRO_TIMER* timer)
 {
 
-    printf("============================= CodeAdventure =============================");
-    printf("\n\n- Inicializando addons do Allegro...");
+    printf("    ______          __        ___       __                 __                       \n");
+    printf("   / ________  ____/ ___     /   | ____/ _   _____  ____  / /___  __________  _____ \n");
+    printf("  / /   / __ \\/ __  / _ \\   / /| |/ __  | | / / _ \\/ __ \\/ __/ / / / ___/ _ \\/ ___/ \n");
+    printf(" / /___/ /_/ / /_/ /  __/  / ___ / /_/ /| |/ /  __/ / / / /_/ /_/ / /  /  __(__  )  \n");
+    printf(" \\____/\\____/\\____/\\___/  /_/  |_\\____/ |___/\\___/_/ /_/\\__/\\____/_/   \\___/____/   \n");
+    printf("                                                                                    \n");
+
+    printf("\n- [INITIALIZING] -> | Inicializando addons do Allegro...");
 
     if (!al_init_font_addon()
             || !al_init_ttf_addon()
@@ -49,12 +55,15 @@ bool initializeGame(ALLEGRO_DISPLAY* display, ALLEGRO_EVENT_QUEUE* queue, ALLEGR
             || !al_install_audio()
             || !al_init_acodec_addon()) return false;
 
-    printf("\n- Addons instalados com sucesso.\n");
+    printf("\n- [INITIALIZING] -> | Addons instalados com sucesso.");
 
     al_register_event_source(queue, al_get_keyboard_event_source());
     al_register_event_source(queue, al_get_mouse_event_source());
     al_register_event_source(queue, al_get_display_event_source(display));
     al_register_event_source(queue, al_get_timer_event_source(timer));
+
+    printf("\n- [INITIALIZING] -> | Jogo carregado com sucesso.");
+    printf("\n- [INITIALIZING] -> | Jogo rodando...");
 
     return true;
 }
@@ -63,9 +72,19 @@ bool initializeGame(ALLEGRO_DISPLAY* display, ALLEGRO_EVENT_QUEUE* queue, ALLEGR
 * Função que encerra o jogo por completo, utilizando os métodos nativos do Allegro para "destruir"
 * as variáveis instanciadas que alocaram memória.
 */
-void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* character, ALLEGRO_MIXER* mixer)
+void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* menuBackground, ALLEGRO_BITMAP* menuSelectGenderBoy, ALLEGRO_BITMAP* menuSelectGenderGirl, ALLEGRO_BITMAP* pauseBackground, ALLEGRO_BITMAP* character, ALLEGRO_MIXER* mixer, Challenge* challengeList)
 {
-    printf("- Destruindo todas as alocacoes de memoria...\n");
+    printf("\n- [INITIALIZING] -> | Destruindo todas as alocacoes de memoria...");
+
+    for (int i = 0; i < MAX_QUESTIONS; i++) {
+        for (int j = 0; j < MAX_QUESTION_TEXT_LINES; j++) {
+            free(challengeList[i].questionText[j]);
+        }
+        for (int j = 0; j < MAX_ALTERNATIVES; j++) {
+            free(challengeList[i].alternatives[j]);
+        }
+    }
+    free(challengeList);
 
     al_destroy_display(display);
     al_destroy_font(font);
@@ -77,5 +96,5 @@ void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO
     al_uninstall_audio();
     al_uninstall_system();
 
-    printf("\nJogo finalizado com sucesso.\n");
+    printf("\n- [SHUTDOWN] -> | Jogo encerrado com sucesso.");
 }
