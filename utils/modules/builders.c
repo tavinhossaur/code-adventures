@@ -87,8 +87,8 @@ ALLEGRO_BITMAP ** getCharacterMovementSprites(int gender) {
         "standby_down", "walking_down_1", "walking_down_2",
         "standby_right", "walking_right_1", "walking_right_2"
     };
-
-    for (int i = 0; i < MAX_MOVEMENTS; i++) {
+    int i;
+    for (i = 0; i < MAX_MOVEMENTS; i++) {
         // Construção da string
         snprintf(path, sizeof(path), "res/sprites/%s/%s_%s.png", strGender, strGender, movementNames[i]);
         list[i] = al_load_bitmap(path);
@@ -253,8 +253,8 @@ Challenge * getChallenges() {
     list[9].alternatives[3] = "15";
 
     list[9].correctAnswer = B;
-
-    for (int i = 0; i < sizeof(list); i++) list[i].isChallengeCompleted = false;
+    int i;
+    for (i = 0; i < sizeof(list); i++) list[i].isChallengeCompleted = false;
 
     printf("\n- [BUILDING]\t -> | Lista de desafios carregada com sucesso.");
 
@@ -301,7 +301,8 @@ void splitText(int textLength, char* questionText, ALLEGRO_FONT* font) {
     char textParts[10][maxLineLength + 1]; // +1 para o caractere nulo
     bool wordCutoff = false;
 
-    for (int i = 0; i < textLength; i++) {
+    int i;
+    for (i = 0; i < textLength; i++) {
         if (i - start >= maxLineLength) {
             // Verifica se a palavra está sendo cortada
             if (wordCutoff) {
@@ -326,6 +327,7 @@ void splitText(int textLength, char* questionText, ALLEGRO_FONT* font) {
             }
 
             partIndex++;
+            start = i;
             start = i;
         } else if (questionText[i] == ' ') {
             end = i; // Marca o último espaço
@@ -366,7 +368,7 @@ void splitText(int textLength, char* questionText, ALLEGRO_FONT* font) {
     partIndex++;
 
     // Itera e desenha as partes
-    for (int i = 0; i < partIndex; i++) {
+    for (i = 0; i < partIndex; i++) {
         al_draw_text(font, al_map_rgb(255, 255, 255), 35, 545 + i * 20, 0, textParts[i]);
     }
 }

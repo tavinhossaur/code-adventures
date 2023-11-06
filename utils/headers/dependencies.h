@@ -1,10 +1,12 @@
-// ResoluÃ§Ã£o
+// Resolução
 #define DISPLAY_WIDTH 768
 #define DISPLAY_HEIGHT 641
 
 // Sprites
 #define BACKGROUND_FILE "res/sprites/game_background.png"
-#define MENU_BACKGROUND_FILE "res/sprites/title_background.png"
+#define TITLE_BACKGROUND_FILE "res/sprites/title_background1.png"
+#define TITLE_BACKGROUND_CONTINUE_FILE "res/sprites/title_background2.png"
+#define TUTORIAL_BACKGROUND_FILE "res/sprites/tutorial_background.png"
 #define MENU_SELECTOR_GENDER_GIRL "res/sprites/menu_gender_selection_girl.png"
 #define MENU_SELECTOR_GENDER_BOY "res/sprites/menu_gender_selection_boy.png"
 #define PAUSE_BACKGROUND "res/sprites/pause_background.png"
@@ -15,7 +17,7 @@
 #define TEXT_FONT "res/fonts/Monaco.ttf"
 #define FONT_SIZE 20
 
-// MÃºsica do jogo
+// Música do jogo
 #define MUSIC_THEME "res/audio/tildeath.ogg"
 #define SAMPLES 2048
 #define SONG_BUFFER 4
@@ -73,7 +75,7 @@ typedef struct Challenge
 } Challenge;
 
 enum Keys { KEY_W, KEY_A, KEY_S, KEY_D };
-enum Screens { TITLE_SCREEN, GAME_SCREEN, PAUSE_SCREEN, OPTIONS_SCREEN, CREDITS_SCREEN, CHALLENGES_SCREEN };
+enum Screens { TITLE_SCREEN, GAME_SCREEN, PAUSE_SCREEN, TUTORIAL_SCREEN, CREDITS_SCREEN, CHALLENGES_SCREEN };
 enum Genders { BOY, GIRL };
 enum Alternatives { A, B, C, D };
 

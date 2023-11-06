@@ -22,6 +22,9 @@ int main()
     int screen = TITLE_SCREEN;
     int gender = BOY;
 
+    bool nameSelected = true; //<---------------------------
+    bool continueFileOn = true;//<---------------------------
+
     bool isGameAlreadyStarted = false;
 
     // Controle para bloquear e desbloquear o uso das teclas de movimento
@@ -33,7 +36,7 @@ int main()
     // Altera o nome do jogo na janela do windows
     al_set_app_name("CodeAdventure");
 
-    // Inicializando variÃ¡veis principais para o funcionamento do jogo
+    // Inicializando variáveis principais para o funcionamento do jogo
     ALLEGRO_DISPLAY* display = al_create_display(DISPLAY_WIDTH, DISPLAY_HEIGHT);
     ALLEGRO_EVENT_QUEUE* queue = al_create_event_queue();
     ALLEGRO_TIMER* timer = al_create_timer(1.0 / MAX_FPS);
@@ -41,13 +44,15 @@ int main()
     // Instalando addons do Allegro e criando eventos
     if (!initializeGame(display, queue, timer)) return 1;
 
-    // Inicializando variÃ¡veis de controle do som do jogo
+    // Inicializando variáveis de controle do som do jogo
     ALLEGRO_VOICE* voice = al_create_voice(FREQUENCY, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
     ALLEGRO_MIXER* mixer = al_create_mixer(FREQUENCY, ALLEGRO_AUDIO_DEPTH_INT16, ALLEGRO_CHANNEL_CONF_2);
 
-    // Inicializando variÃ¡veis dos recursos utilizados (sprites, musicas, fontes)
+    // Inicializando variáveis dos recursos utilizados (sprites, musicas, fontes)
     ALLEGRO_BITMAP* background = al_load_bitmap(BACKGROUND_FILE);
-    ALLEGRO_BITMAP* menuBackground = al_load_bitmap(MENU_BACKGROUND_FILE);
+    ALLEGRO_BITMAP* menuBackground = al_load_bitmap(TITLE_BACKGROUND_FILE);
+    ALLEGRO_BITMAP* menuBackgroundContinue = al_load_bitmap(TITLE_BACKGROUND_CONTINUE_FILE);
+    ALLEGRO_BITMAP* tutorialBackground = al_load_bitmap(TUTORIAL_BACKGROUND_FILE);
     ALLEGRO_BITMAP* menuSelectGenderBoy = al_load_bitmap(MENU_SELECTOR_GENDER_BOY);
     ALLEGRO_BITMAP* menuSelectGenderGirl = al_load_bitmap(MENU_SELECTOR_GENDER_GIRL);
     ALLEGRO_BITMAP* pauseBackground = al_load_bitmap(PAUSE_BACKGROUND);
@@ -64,13 +69,13 @@ int main()
     Challenge *challengeList;
     Character character;
 
-    // Inicializando a mÃºsica do jogo
+    // Inicializando a música do jogo
     if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
 
-    // ComeÃ§ando timer do jogo
+    // Começando timer do jogo
     al_start_timer(timer);
 
-    // Contadores utilizados em tempo de execuÃ§Ã£o
+    // Contadores utilizados em tempo de execução
     int frameCounter = 0;
     int challengeIndex = 0;
     int currentQuoteIndex = 0;
@@ -104,20 +109,28 @@ int main()
             break;
         }
 
-        // LÃ³gica em tempo de execuÃ§Ã£o
+        // Lógica em tempo de execução
         if (event.type == ALLEGRO_EVENT_TIMER)
         {
             if(frameCounter > 1000) frameCounter = 0;
 
-            for(int i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= KEY_PRESSED;
+            int i;
+            for(i = 0; i < ALLEGRO_KEY_MAX; i++) key[i] &= KEY_PRESSED;
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
 
             switch (screen)
             {
             case TITLE_SCREEN:
+
+                if(continueFileOn == true){ //<----------------------------------------------------------------------------
+                    // Desenha o menu (TITLE_SCREEN)
+                    al_draw_bitmap(menuBackground, 0, 0, 0);
+                }
+                else al_draw_bitmap(menuBackgroundContinue, 0, 0, 0);
+
                 // Desenha o menu (TITLE_SCREEN)
-                al_draw_bitmap(menuBackground, 0, 0, 0);
+
 
                 // Desenha o seletor de genero
                 if(gender == BOY) al_draw_bitmap(menuSelectGenderBoy, 450, 280, 0);
@@ -126,59 +139,74 @@ int main()
                 // Verifica os cliques durante o Title (TITLE_SCREEN)
                 if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
-                    if(mouseClickPositionX >= 175 && mouseClickPositionX <= 290 && mouseClickPositionY >= 256 && mouseClickPositionY <= 290)
+                    character.name = "red";
+                    al_draw_textf(font, al_map_rgb(5, 0, 0), 594, 247, 1, "%s", character.name);
+
+                    if(mouseClickPositionX >= 128 && mouseClickPositionX <= 330 && mouseClickPositionY >= 248 && mouseClickPositionY <= 292 || mouseClickPositionX >= 128 && mouseClickPositionX <= 330 && mouseClickPositionY >= 314 && mouseClickPositionY <= 357 && continueFileOn == true)
                     {
-                        if(!isGameAlreadyStarted)
+                        if(nameSelected == true)//<------------------------------------------------------------------------------------------------
                         {
-                            collisions = getCollisionBlocks();
-                            challengeList = getChallenges();
-                            houses = getHouses();
+                            if(!isGameAlreadyStarted)
+                            {
+                                collisions = getCollisionBlocks();
+                                challengeList = getChallenges();
+                                houses = getHouses();
+                            }
+
+                            // Carregando a lista de bitmaps dos movimentos do personagem com base no gênero escolhido
+                            movementList = getCharacterMovementSprites(gender);
+
+                            // Criando um personagem
+                            character.name = getUserName(queue, font);
+                            character.posX = CHARACTER_START_X;
+                            character.posY = CHARACTER_START_Y;
+                            character.lastDirection = KEY_S;
+                            character.isMoving = false;
+                            character.currentMovementBitmap = movementList[STANDBY_DOWN];
+
+                            isGameAlreadyStarted = true;
+                            currentQuoteIndex = 0;
+                            challengeIndex = 0;
+
+                            screen = GAME_SCREEN;
+                            mouseClickPositionX = 0;
+                            mouseClickPositionY = 0;
                         }
-
-                        // Carregando a lista de bitmaps dos movimentos do personagem com base no gÃªnero escolhido
-                        movementList = getCharacterMovementSprites(gender);
-
-                        // Criando um personagem
-                        character.name = getUserName(queue, font);
-                        character.posX = CHARACTER_START_X;
-                        character.posY = CHARACTER_START_Y;
-                        character.lastDirection = KEY_S;
-                        character.isMoving = false;
-                        character.currentMovementBitmap = movementList[STANDBY_DOWN];
-
-                        isGameAlreadyStarted = true;
-                        currentQuoteIndex = 0;
-                        challengeIndex = 0;
-
-                        screen = GAME_SCREEN;
+                        else al_draw_textf(font, al_map_rgb(255, 50, 50), 594, 247, 1, "!Insira um nome!");
                     }
 
-                    if(mouseClickPositionX >= 175 && mouseClickPositionX <= 290 && mouseClickPositionY >= 348 && mouseClickPositionY <= 382)
+                    if(mouseClickPositionX >= 128 && mouseClickPositionX <= 330 && mouseClickPositionY >= 385 && mouseClickPositionY <= 428)
                     {
-                        screen = OPTIONS_SCREEN;
+                        screen = TUTORIAL_SCREEN;
+                        mouseClickPositionX = 0;
+                        mouseClickPositionY = 0;
                     }
 
-                    // if(mouseClickPositionX >= 175 && mouseClickPositionX <= 290 && mouseClickPositionY >= 439 && mouseClickPositionY <= 475){
-                    // espaco reservado para extras futuros
-                    // }
-
-                    if(mouseClickPositionX >= 175 && mouseClickPositionX <= 290 && mouseClickPositionY >= 530 && mouseClickPositionY <= 565)
-                    {
+                    if(mouseClickPositionX >= 128 && mouseClickPositionX <= 330 && mouseClickPositionY >= 446 && mouseClickPositionY <= 492){
                         screen = CREDITS_SCREEN;
+                        mouseClickPositionX = 0;
+                        mouseClickPositionY = 0;
+                    }
+
+                    if(mouseClickPositionX >= 128 && mouseClickPositionX <= 330 && mouseClickPositionY >= 522 && mouseClickPositionY <= 563)
+                    {
+                        return 0;
                     }
 
                     if(mouseClickPositionX >= 600 && mouseClickPositionX <= 625 && mouseClickPositionY >= 555 && mouseClickPositionY <= 590)
                     {
                         gender = BOY;
+                        mouseClickPositionX = 0;
+                        mouseClickPositionY = 0;
                     }
 
                     if(mouseClickPositionX >= 566 && mouseClickPositionX <= 590 && mouseClickPositionY >= 555 && mouseClickPositionY <= 590)
                     {
                         gender = GIRL;
+                        mouseClickPositionX = 0;
+                        mouseClickPositionY = 0;
                     }
 
-                    mouseClickPositionX = 0;
-                    mouseClickPositionY = 0;
                 }
                 break;
 
@@ -186,10 +214,10 @@ int main()
                 // Desenha o mapa
                 al_draw_bitmap(background, 0, 0, 0);
 
-                // LÃ³gica de detecÃ§Ã£o de colisÃµes
+                // Lógica de detecção de colisões
                 runCollisionDetection(collisions, character, blockedKey);
 
-                // LÃ³gica de movimentaÃ§Ã£o com animaÃ§Ã£o baseada na direÃ§Ã£o e FPS
+                // Lógica de movimentação com animação baseada na direção e FPS
                 updateCharacterMovement(&character, frameCounter, movementList, blockedKey, key);
 
                 // Desenha o personagem
@@ -202,7 +230,7 @@ int main()
                     CHARACTER_WIDTH, CHARACTER_HEIGHT, 0);
 
                 // Verifica os cliques durante o jogo (GAME_SCREEN)
-                if(mouseClickPositionX >= 599 && mouseClickPositionX <= 718 && mouseClickPositionY >= 585 && mouseClickPositionY <= 621)
+                if(mouseClickPositionX >= 554 && mouseClickPositionX <= 745 && mouseClickPositionY >= 580 && mouseClickPositionY <= 624)
                 {
                     screen = PAUSE_SCREEN;
                 }
@@ -210,22 +238,23 @@ int main()
                 mouseClickPositionX = 0;
                 mouseClickPositionY = 0;
 
-                // Verifica se o jogador estÃ¡ tentando entrar em qualquer uma das casas
-                // -> NecessÃ¡rio verificar se a casa jÃ¡ foi "concluÃ­da", caso contrÃ¡rio o jogador conseguirÃ¡ fazer todas os desafios na mesma casa
+                // Verifica se o jogador está tentando entrar em qualquer uma das casas
+                // -> Necessário verificar se a casa já foi "concluída", caso contrário o jogador conseguirá fazer todas os desafios na mesma casa
                 if (key[ALLEGRO_KEY_E])
                 {
-                    for (int i = 0; i < MAX_HOUSES; i++)
+                    int i;
+                    for (i = 0; i < MAX_HOUSES; i++)
                     {
                         if (character.posX >= houses[i].bottomRightX && character.posX <= houses[i].topLeftX && character.posY >= houses[i].bottomRightY && character.posY <= houses[i].topLeftY)
                         {
-                            // al_draw_textf(font, al_map_rgb(255, 255, 255), DISPLAY_WIDTH / 2, 20, 1, "VocÃª jÃ¡ completou o desafio dessa casa!");
+                            // al_draw_textf(font, al_map_rgb(255, 255, 255), DISPLAY_WIDTH / 2, 20, 1, "Você já completou o desafio dessa casa!");
                             screen = CHALLENGES_SCREEN;
                         }
                     }
                 }
 
                 // DEBBUGING
-                // Desenha todas as colisÃµes (nÃ£o estarÃ¡ na versÃ£o final do jogo)
+                // Desenha todas as colisões (não estará na versão final do jogo)
                 // drawCollision(collisions);
 
                 break;
@@ -237,13 +266,17 @@ int main()
                 // Verifica os cliques durante o Pause (PAUSE_SCREEN)
                 if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
-                    if(mouseClickPositionX >= 300 && mouseClickPositionX <= 475 && mouseClickPositionY >= 138 && mouseClickPositionY <= 170)
+                    if(mouseClickPositionX >= 336 && mouseClickPositionX <= 450 && mouseClickPositionY >= 122 && mouseClickPositionY <= 162)
+                    {
+                        screen = GAME_SCREEN;
+                    }
+                    if(mouseClickPositionX >= 274 && mouseClickPositionX <= 502 && mouseClickPositionY >= 188 && mouseClickPositionY <= 228)
                     {
                         screen = TITLE_SCREEN;
                     }
-                    if(mouseClickPositionX >= 331 && mouseClickPositionX <= 444 && mouseClickPositionY >= 228 && mouseClickPositionY <= 264)
+                    if(mouseClickPositionX >= 298 && mouseClickPositionX <= 486 && mouseClickPositionY >= 254 && mouseClickPositionY <= 295)
                     {
-                        screen = GAME_SCREEN;
+                        return 0;
                     }
                 }
 
@@ -257,10 +290,11 @@ int main()
 
                 break;
 
-            case OPTIONS_SCREEN:
+            case TUTORIAL_SCREEN:
+                al_draw_bitmap(tutorialBackground, 0, 0, 0);
                 if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
                 {
-                    al_draw_textf(font, al_map_rgb(255, 255, 255), DISPLAY_WIDTH / 2, 20, 1, "Clique em qualquer lugar");
+                    al_draw_textf(font, al_map_rgb(0, 220, 220), DISPLAY_WIDTH / 2, 20, 1, "Clique em qualquer lugar");
                     if(key[ALLEGRO_KEY_ESCAPE] || mouseClickPositionX >= 1 && mouseClickPositionX <= DISPLAY_WIDTH && mouseClickPositionY >= 0 && mouseClickPositionY <= DISPLAY_HEIGHT)
                     {
                         screen = TITLE_SCREEN;
@@ -287,7 +321,7 @@ int main()
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 al_draw_bitmap(challengeBackground, 0, 0, 0);
 
-                // BotÃ£o de sair ou tecla "ESC"
+                // Botão de sair ou tecla "ESC"
                 if (key[ALLEGRO_KEY_ESCAPE] || mouseClickPositionX >= 660 && mouseClickPositionX <= 750 && mouseClickPositionY >= 470 && mouseClickPositionY <= 500)
                 {
                     currentQuoteIndex = 0;
@@ -304,8 +338,8 @@ int main()
 
                 int textLength = strlen(questionText);
 
-                // Se o texto for muito grande, ele Ã© dividido, caso contrÃ¡rio sÃ³ Ã© mostrado diretamente
-                // o index da parte do texto Ã© resetado Ã  zero se o tamanho do texto for menor que 1 ("")
+                // Se o texto for muito grande, ele é dividido, caso contrário só é mostrado diretamente
+                // o index da parte do texto é resetado à zero se o tamanho do texto for menor que 1 ("")
                 if (textLength >= 55)
                 {
                     splitText(textLength, questionText, font);
@@ -350,7 +384,8 @@ int main()
 
                 // Mostra as alternativas
                 int yPosition = 90;
-                for (int i = 0; i < MAX_ALTERNATIVES; i++)
+                int i;
+                for (i = 0; i < MAX_ALTERNATIVES; i++)
                 {
                     al_draw_text(font, al_map_rgb(255, 255, 255), 330, yPosition, 0, challengeList[challengeIndex].alternatives[i]);
                     yPosition += 90;
@@ -370,10 +405,9 @@ int main()
                 }
 
                 //
-                // Verificar resposta do jogador e setar isChallengeCompleted para true se ele acertou a questÃ£o e flagar a casa como "jÃ¡ acessada"
+                // Verificar resposta do jogador e setar isChallengeCompleted para true se ele acertou a questão e flagar a casa como "já acessada"
                 // challengeList[challengeIndex].isChallengeCompleted = true;
                 // houses[challengeIndex].alreadyEntered = true;
-                //
 
                 mouseClickPositionX = 0;
                 mouseClickPositionY = 0;
@@ -392,8 +426,8 @@ int main()
         }
     }
 
-    // Encerra o jogo limpando as funÃ§Ãµes que consomem memÃ³ria
-    initializeDestruction(display, font, music, background, menuBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, character, mixer, collisions, challengeList);
+    // Encerra o jogo limpando as funções que consomem memória
+    initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, character, mixer, collisions, challengeList);
 
     return 0;
 }

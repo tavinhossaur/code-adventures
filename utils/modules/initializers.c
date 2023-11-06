@@ -72,7 +72,7 @@ bool initializeGame(ALLEGRO_DISPLAY* display, ALLEGRO_EVENT_QUEUE* queue, ALLEGR
 * Função que encerra o jogo por completo, utilizando os métodos nativos do Allegro para "destruir"
 * as variáveis instanciadas que alocaram memória.
 */
-void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* menuBackground, ALLEGRO_BITMAP* menuSelectGenderBoy, ALLEGRO_BITMAP* menuSelectGenderGirl, ALLEGRO_BITMAP* pauseBackground, ALLEGRO_BITMAP* character, ALLEGRO_MIXER* mixer, Challenge* challengeList)
+void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* menuBackground, ALLEGRO_BITMAP* menuBackgroundContinue, ALLEGRO_BITMAP* tutorialBackground, ALLEGRO_BITMAP* menuSelectGenderBoy, ALLEGRO_BITMAP* menuSelectGenderGirl, ALLEGRO_BITMAP* pauseBackground, ALLEGRO_BITMAP* character, ALLEGRO_MIXER* mixer, Challenge* challengeList)
 {
     printf("\n- [INITIALIZING] -> | Destruindo todas as alocacoes de memoria...");
 
@@ -91,6 +91,9 @@ void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO
     al_destroy_audio_stream(music);
     al_destroy_mixer(mixer);
     al_destroy_bitmap(background);
+    al_destroy_bitmap(menuBackground);
+    al_destroy_bitmap(menuBackgroundContinue);
+    al_destroy_bitmap(tutorialBackground);
     al_destroy_bitmap(character);
     al_uninstall_keyboard();
     al_uninstall_audio();
