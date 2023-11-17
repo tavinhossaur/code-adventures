@@ -7,5 +7,3 @@ void drawCollision(CollisionBlock collisions[]);
 bool isAnswerCorrect(int mouseClickPositionX, int mouseClickPositionY, Challenge * challengeList, int index);
 
 void clearMouseClickPositions(int * mouseClickPositionX, int * mouseClickPositionY);
-
-char * getUserName();

@@ -44,7 +44,6 @@
 		<Unit filename="utils/headers/dependencies.h" />
 		<Unit filename="utils/headers/initializers.h" />
 		<Unit filename="utils/headers/runtime.h" />
-		<Unit filename="utils/headers/screens.h" />
 		<Unit filename="utils/modules/builders.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -52,9 +51,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="utils/modules/runtime.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="utils/modules/screens.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Extensions>

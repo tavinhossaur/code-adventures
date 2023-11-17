@@ -24,7 +24,7 @@ CollisionBlock * getCollisionBlocks() {
     FILE *file = fopen(COLLISION_DATABASE, "r");
 
     if (file == NULL) {
-        perror("\n- [BUILDING_ERROR]\t -> | ERRO: Ocorreu um erro ao acessar banco de colisoes\n");
+        perror("- [BUILDING_ERROR]\t -> | ERRO: Ocorreu um erro ao acessar banco de colisoes\n");
         return 1;
     }
 
@@ -61,7 +61,7 @@ CollisionBlock * getCollisionBlocks() {
 
     fclose(file);
 
-    printf("\n- [BUILDING]\t -> | Banco de colisoes carregado com sucesso.");
+    printf("- [BUILDING]\t -> | Banco de colisoes carregado com sucesso.\n");
 
     return list;
 }
@@ -87,19 +87,19 @@ ALLEGRO_BITMAP ** getCharacterMovementSprites(int gender) {
         "standby_down", "walking_down_1", "walking_down_2",
         "standby_right", "walking_right_1", "walking_right_2"
     };
-    int i;
-    for (i = 0; i < MAX_MOVEMENTS; i++) {
+
+    for (int i = 0; i < MAX_MOVEMENTS; i++) {
         // Construção da string
         snprintf(path, sizeof(path), "res/sprites/%s/%s_%s.png", strGender, strGender, movementNames[i]);
         list[i] = al_load_bitmap(path);
 
         if (!list[i]) {
-            printf("\n- [BUILDING]\t -> | ERRO: Ocorreu um erro ao carregar a imagem: %s\n", path);
+            printf("- [BUILDING]\t -> | ERRO: Ocorreu um erro ao carregar a imagem: %s\n", path);
             return 1;
         }
     }
 
-    printf("\n- [BUILDING]\t -> | Bitmaps de movimento do personagem carregados com sucesso.");
+    printf("- [BUILDING]\t -> | Bitmaps de movimento do personagem carregados com sucesso.\n");
 
     return list;
 }
@@ -140,35 +140,35 @@ Challenge * getChallenges() {
 
     list[1].correctAnswer = C;
 
-    list[2].questionText[0] = "Olá, treinador %s!";
+    list[2].questionText[0] = "Olá, treinador(a) %s!";
     list[2].questionText[1] = "Você está em uma batalha Pokémon contra um adversário habilidoso.";
     list[2].questionText[2] = "Para vencer, você precisa prestar muita atenção aos padrões.";
     list[2].questionText[3] = "Após uma sequência de pokémons um padrão é revelado:";
     list[2].questionText[4] = "Charmander - Pikachu - Squirtle - Bulbassaur - Jigglypuff - Charmander - Pikachu...";
-    list[2].questionText[5] = "Quantos Squirtles terão na 6ª parte dessa sequência?";
+    list[2].questionText[5] = "Quantos Squirtles tem na 6ª parte dessa sequência?";
 
-    list[2].alternatives[0] = "1";
-    list[2].alternatives[1] = "5";
+    list[2].alternatives[0] = "5";
+    list[2].alternatives[1] = "1";
     list[2].alternatives[2] = "3";
     list[2].alternatives[3] = "6";
 
-    list[2].correctAnswer = A;
+    list[2].correctAnswer = B;
 
-    list[3].questionText[0] = "Treinador %s!";
+    list[3].questionText[0] = "Treinador(a) %s!";
     list[3].questionText[1] = "Precisamos criar um algoritmo para a pokedéx que determine a probabilidade de encontrar um Pokémon lendário em cada região que visitarmos!";
     list[3].questionText[2] = "As probabilidades variam de acordo com a região, portanto, precisamos considerar dois fatores:";
     list[3].questionText[3] = "Total de Pokémons Lendários da Região e Total de Pokémons da Região.";
     list[3].questionText[4] = "Qual algoritmo é o melhor para representar essa probabilidade em porcentagem (%%)?";
     list[3].questionText[5] = "";
 
-    list[3].alternatives[0] = "(lendários / totais) x 100";
+    list[3].alternatives[0] = "(lendarios x totais) x 100";
     list[3].alternatives[1] = "(lendários + 100) / totais";
     list[3].alternatives[2] = "(totais + lendarios) / 100";
-    list[3].alternatives[3] = "(lendarios x totais) x 100";
+    list[3].alternatives[3] = "(lendários / totais) x 100";
 
-    list[3].correctAnswer = A;
+    list[3].correctAnswer = D;
 
-    list[4].questionText[0] = "Treinador!";
+    list[4].questionText[0] = "Treinador(a)!";
     list[4].questionText[1] = "Estamos partindo em uma missão para encontrar as partes de um antigo artefato Pokémon que estão espalhadas dentro da caverna de Mt. Moon.";
     list[4].questionText[2] = "Precisamos dividir essa missão em etapas menores. Aqui está a missão decomposta em etapas:";
     list[4].questionText[3] = "1. Voltar e estudar as peças encontradas. - 2. Preparar uma equipe Pokémon e partir - 3. Chegar ao Mt. Moon em segurança - 4. Encontrar todas as peças";
@@ -214,7 +214,7 @@ Challenge * getChallenges() {
     list[7].questionText[1] = "Um Slowpoke safado fez nosso programador preencher os dados erroneamente!";
     list[7].questionText[2] = "Veja se consegue identificar um padrão nos dados para arrumarmos o problema:";
     list[7].questionText[3] = "Ash: 3 vitórias - Brock: 5 vitórias - Misty: 5 vitórias - Gary: 4 vitórias - May: 3 vitórias";
-    list[7].questionText[4] = "Quantas vitórias o Slowpoke fez o nosso programador colocar para o treinador %s?";
+    list[7].questionText[4] = "Quantas vitórias o Slowpoke fez o nosso programador colocar para o(a) treinador(a) %s?";
     list[7].questionText[5] = "";
 
     list[7].alternatives[0] = "4 vitórias";
@@ -224,39 +224,25 @@ Challenge * getChallenges() {
 
     list[7].correctAnswer = C;
 
-    list[8].questionText[0] = "Treinador %s! O fim da jornada se aproxima!";
-    list[8].questionText[1] = "Como último desafio, você deve desvendar o mistério das lendas de...";
-    list[8].questionText[2] = "Arceus, O Primeiro Pokémon!";
-    list[8].questionText[3] = "A entrada está protegida por um enigma complexo.";
-    list[8].questionText[4] = "Para acessar a caverna, você deve desvendar o número misterioso do enigma.";
-    list[8].questionText[5] = "";
+    list[8].questionText[0] = "'No coração de Kanto, sob o sol escaldante,";
+    list[8].questionText[1] = "Nas entranhas da região, há um número intrigante.";
+    list[8].questionText[2] = "Se trata do primeiro múltiplo de 5 que possui o mesmo resto por 2 que a quantidade total de Pokémons de Kanto,";
+    list[8].questionText[3] = "Adicionado ao dobro da quantidade de Pokémons Lendários que nos traz tanto encanto.";
+    list[8].questionText[4] = "E ao adicionar o número de letras em 'Pikachu',";
+    list[8].questionText[5] = "E subtrair o número de letras em 'Squirtle',";
+    list[8].questionText[6] = "Você chegará à suprema resposta final,";
+    list[8].questionText[7] = "E encontrará a chave para abrir esta entrada especial.'";
 
-    list[8].alternatives[0] = "";
-    list[8].alternatives[1] = "";
-    list[8].alternatives[2] = "";
-    list[8].alternatives[3] = "";
+    list[8].alternatives[0] = "5";
+    list[8].alternatives[1] = "14";
+    list[8].alternatives[2] = "8";
+    list[8].alternatives[3] = "15";
 
     list[8].correctAnswer = B;
 
-    list[9].questionText[0] = "'No coração de Kanto, sob o sol escaldante,";
-    list[9].questionText[1] = "Nas entranhas da região, há um número intrigante.";
-    list[9].questionText[2] = "Se trata do primeiro múltiplo de 5 que possui o mesmo resto por 2 que a quantidade total de Pokémons de Kanto,";
-    list[9].questionText[3] = "Adicionado ao dobro da quantidade de Pokémons Lendários que nos traz tanto encanto.";
-    list[9].questionText[4] = "E ao adicionar o número de letras em 'Pikachu',";
-    list[9].questionText[5] = "E subtrair o número de letras em 'Squirtle',";
-    list[9].questionText[6] = "Você chegará à suprema resposta final,";
-    list[9].questionText[7] = "E encontrará a chave para abrir esta entrada especial.'";
+    for (int i = 0; i < sizeof(list); i++) list[i].isChallengeCompleted = -1;
 
-    list[9].alternatives[0] = "5";
-    list[9].alternatives[1] = "14";
-    list[9].alternatives[2] = "8";
-    list[9].alternatives[3] = "15";
-
-    list[9].correctAnswer = B;
-    int i;
-    for (i = 0; i < sizeof(list); i++) list[i].isChallengeCompleted = false;
-
-    printf("\n- [BUILDING]\t -> | Lista de desafios carregada com sucesso.");
+    printf("- [BUILDING]\t -> | Lista de desafios carregada com sucesso.\n");
 
     return list;
 }
@@ -267,23 +253,22 @@ Challenge * getChallenges() {
 *
 * returns -> uma lista de HouseDoor
 */
-HouseDoor * getHouses(){
+HouseDoor * getHouses() {
 
-    static HouseDoor houses[] =
-    {
-        {161, 185, 194, 198, false},
-        {270, 285, 194, 198, false},
-        {480, 505, 192, 198, false},
-        {242, 256, 287, 290, false},
-        {350, 370, 319, 323, false},
-        {495, 514, 346, 350, false},
-        {203, 241, 464, 470, false},
-        {369, 382, 463, 469, false},
-        {465, 479, 463, 469, false},
-        {12, 33, 194, 212, false}
+    static HouseDoor houses[] = {
+        // topLeftX, topLeftY, bottomRightX, bottomRightY, alreadyEntered
+        {158, 190, 178, 200, false},
+        {270, 190, 290, 200, false},
+        {478, 190, 498, 200, false},
+        {238, 283, 258, 293, false},
+        {350, 315, 370, 325, false},
+        {494, 340, 514, 355, false},
+        {204, 460, 244, 470, false},
+        {366, 460, 386, 470, false},
+        {18, 200, 30, 210, false}
     };
 
-    printf("\n- [BUILDING]\t -> | Casas acessiveis carregadas com sucesso.");
+    printf("- [BUILDING]\t -> | Casas acessiveis carregadas com sucesso.\n");
 
     return houses;
 }
@@ -301,8 +286,7 @@ void splitText(int textLength, char* questionText, ALLEGRO_FONT* font) {
     char textParts[10][maxLineLength + 1]; // +1 para o caractere nulo
     bool wordCutoff = false;
 
-    int i;
-    for (i = 0; i < textLength; i++) {
+    for (int i = 0; i < textLength; i++) {
         if (i - start >= maxLineLength) {
             // Verifica se a palavra está sendo cortada
             if (wordCutoff) {
@@ -368,7 +352,7 @@ void splitText(int textLength, char* questionText, ALLEGRO_FONT* font) {
     partIndex++;
 
     // Itera e desenha as partes
-    for (i = 0; i < partIndex; i++) {
+    for (int i = 0; i < partIndex; i++) {
         al_draw_text(font, al_map_rgb(255, 255, 255), 35, 545 + i * 20, 0, textParts[i]);
     }
 }

@@ -6,4 +6,4 @@ Challenge * getChallenges();
 
 HouseDoor * getHouses();
 
-void splitText(int textLength, char* questionText, ALLEGRO_FONT* font);
+void splitText(int textLength, char* questionText, ALLEGRO_FONT* font, int maxLineLength);

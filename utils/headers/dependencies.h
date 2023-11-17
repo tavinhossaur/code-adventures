@@ -3,7 +3,8 @@
 #define DISPLAY_HEIGHT 641
 
 // Sprites
-#define BACKGROUND_FILE "res/sprites/game_background.png"
+#define GAME_BACKGROUND_FILE "res/sprites/game_background.png"
+#define END_GAME_BACKGROUND_FILE "res/sprites/end_game_background.png"
 #define TITLE_BACKGROUND_FILE "res/sprites/title_background1.png"
 #define TITLE_BACKGROUND_CONTINUE_FILE "res/sprites/title_background2.png"
 #define TUTORIAL_BACKGROUND_FILE "res/sprites/tutorial_background.png"
@@ -11,11 +12,14 @@
 #define MENU_SELECTOR_GENDER_BOY "res/sprites/menu_gender_selection_boy.png"
 #define PAUSE_BACKGROUND "res/sprites/pause_background.png"
 #define CHALLENGE_BACKGROUND "res/sprites/challenges_background.png"
+#define CREDITS_BACKGROUND "res/sprites/credits.png"
 #define DIALOG_BAR "res/sprites/interface/dialog_bar.png"
+#define ALERT_DIALOG "res/sprites/interface/alert_dialog.png"
 
 // Fonte
 #define TEXT_FONT "res/fonts/Monaco.ttf"
 #define FONT_SIZE 20
+#define SECONDARY_FONT_SIZE 15
 
 // Música do jogo
 #define MUSIC_THEME "res/audio/tildeath.ogg"
@@ -26,11 +30,11 @@
 // Limitadores
 #define MAX_FPS 60
 #define MAX_COLLISIONS 36
-#define MAX_HOUSES 10
+#define MAX_HOUSES 9
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4
 #define MAX_ALTERNATIVES 4
-#define MAX_QUESTIONS 10
+#define MAX_QUESTIONS 9
 #define MAX_QUESTION_TEXT_LINES 8
 
 // Personagem
@@ -41,9 +45,8 @@
 #define CHARACTER_X_HITBOX_ADJUST 9
 #define CHARACTER_Y_HITBOX_ADJUST 18
 
-typedef struct Character
-{
-    char* name;
+typedef struct Character {
+    char *name;
     int posX;
     int posY;
     int lastDirection;
@@ -52,25 +55,22 @@ typedef struct Character
 
 } Character;
 
-typedef struct CollisionBlock
-{
+typedef struct CollisionBlock {
     int topLeftX, topLeftY, bottomRightX, bottomRightY;
 
 } CollisionBlock;
 
-typedef struct HouseDoor
-{
+typedef struct HouseDoor {
     int topLeftX, topLeftY, bottomRightX, bottomRightY;
     bool alreadyEntered;
 
 } HouseDoor;
 
-typedef struct Challenge
-{
+typedef struct Challenge {
     char *alternatives[MAX_ALTERNATIVES];
     char *questionText[MAX_QUESTION_TEXT_LINES];
     int correctAnswer;
-    bool isChallengeCompleted;
+    int isChallengeCompleted;
 
 } Challenge;
 
@@ -79,8 +79,7 @@ enum Screens { TITLE_SCREEN, GAME_SCREEN, PAUSE_SCREEN, TUTORIAL_SCREEN, CREDITS
 enum Genders { BOY, GIRL };
 enum Alternatives { A, B, C, D };
 
-enum Movements
-{
+enum Movements {
     STANDBY_UP, WALKING_UP_1, WALKING_UP_2,
     STANDBY_LEFT, WALKING_LEFT_1, WALKING_LEFT_2,
     STANDBY_DOWN, WALKING_DOWN_1, WALKING_DOWN_2,

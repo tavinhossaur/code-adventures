@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -85,9 +86,7 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
 
     if(character.posY >= DISPLAY_HEIGHT - 1) blockedKey[KEY_S] = true;
 
-    int i;
-
-    for (i = 0; i < MAX_COLLISIONS; ++i) {
+    for (int i = 0; i < MAX_COLLISIONS; ++i) {
         if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
             if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
 
@@ -106,9 +105,7 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
 }
 
 void drawCollision(CollisionBlock collisions[]) {
-    int i;
-
-    for(i = 0; i < MAX_COLLISIONS; i++) {
+    for(int i = 0; i < MAX_COLLISIONS; i++) {
         al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,5,5));
     }
 }
@@ -124,19 +121,19 @@ bool isAnswerCorrect(int mouseClickPositionX, int mouseClickPositionY, Challenge
 
     int playerAnswer;
 
-    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 55 && mouseClickPositionY <= 135){
+    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 55 && mouseClickPositionY <= 135) {
         playerAnswer = A;
     }
 
-    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 150 && mouseClickPositionY <= 230){
+    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 150 && mouseClickPositionY <= 230) {
         playerAnswer = B;
     }
 
-    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 240 && mouseClickPositionY <= 320){
+    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 240 && mouseClickPositionY <= 320) {
         playerAnswer = C;
     }
 
-    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 335 && mouseClickPositionY <= 410){
+    if (mouseClickPositionX >= 315 && mouseClickPositionX <= 750 && mouseClickPositionY >= 335 && mouseClickPositionY <= 410) {
         playerAnswer = D;
     }
 
@@ -153,15 +150,5 @@ bool isAnswerCorrect(int mouseClickPositionX, int mouseClickPositionY, Challenge
 void clearMouseClickPositions(int * mouseClickPositionX, int * mouseClickPositionY) {
     *mouseClickPositionX = 0;
     *mouseClickPositionY = 0;
-    printf("\n- [GAME_RUNTIME] -> | mouseClickPositionX limpo.");
-    printf("\n- [GAME_RUNTIME] -> | mouseClickPositionY limpo.");
-}
-
-/*
-* Função temporária que retorna um nome que será exibido como o nome do jogador.
-*
-* returns - uma string com o nome do jogador.
-*/
-char * getUserName() {
-    return "Ash";
+    printf("- [GAME_RUNTIME] -> | Coordenadas do clique do mouse limpas.\n");
 }
