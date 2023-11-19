@@ -17,7 +17,7 @@ If you do not have Code::Blocks installed and configured with the MinGW compiler
 1. clone or download this repository
 2. extract the repository folder
 3. in the root folder of the project, go to `bin/Release`
-4. copy both the files in the directory: `allegro_monolith-5.2.dll` and `CodeAdventures.exe`
+4. copy both the files in the root directory: `allegro_monolith-5.2.dll` and `CodeAdventures.exe`
 5. paste the files in the root folder
 6. run `CodeAdventures.exe` and have fun!
 
