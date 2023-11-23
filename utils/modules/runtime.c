@@ -76,7 +76,7 @@ void updateCharacterMovement(Character *character, int frameCounter, ALLEGRO_BIT
 * Função que carrega todas as colisões do jogo no loop principal. Recebendo a lista de colisões,
 * o personagem e o array booleano para controlar o bloqueio do movimento do personagem.
 */
-void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex) {
+void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex, ALLEGRO_BITMAP* snorlax) {
     // Colisões externas
     if(character.posX <= 1) blockedKey[KEY_A] = true;
 
@@ -98,8 +98,8 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
         }
     }
 
-    //Colisao da cerca que desativa para liberar o caminho para a caverna apos completar os 9 desafios
-    if (challengeIndex != 8){
+    // Colisão da cerca que desativa para liberar o caminho para a caverna apos completar os 9 desafios
+    if (challengeIndex != 8) {
         if (character.posX >= collisions[35].topLeftX && character.posX <= collisions[35].bottomRightX && character.posY >= collisions[35].topLeftY && character.posY <= collisions[35].bottomRightY) {
             if(character.posX >= collisions[35].topLeftX - 1 && character.posX <= collisions[35].topLeftX) blockedKey[KEY_D] = true;
 
@@ -131,9 +131,33 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
         }
     }
 
+    updateSnorlaxRoadblocksCollisions(challengeIndex, collisions, character, blockedKey);
+}
 
-    //Colisao com as barreiras de snorlax de acordo com o index de desafio
-    switch(challengeIndex){
+/*
+* Função de auxílio para testes que utilizamos para enxergar as colisões no mapa.
+*/
+/*
+void drawCollision(CollisionBlock collisions[]) {
+    for(int i = 0; i < MAX_STATIC_COLLISIONS; i++) {
+        al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,5,5));
+    }
+
+    for(int i = 66; i < MAX_COLLISIONS; i++) {
+        al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,225,5));
+    }
+
+    int n = 66;
+    al_draw_filled_rectangle(collisions[n].topLeftX, collisions[n].topLeftY, collisions[n].bottomRightX, collisions[n].bottomRightY, al_map_rgb(225,5,5));
+}
+*/
+
+/*
+* Função que carrega todas os bloqueios de Snorlax do jogo no loop principal. Recebendo a lista de colisões,
+* o personagem e o array booleano para controlar o bloqueio do movimento do personagem.
+*/
+void updateSnorlaxRoadblocksCollisions(int challengeIndex, CollisionBlock collisions[], Character character, bool blockedKey[]) {
+    switch(challengeIndex) {
     case 0:
         for (int i = 36; i < 39; ++i) {
             if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
@@ -243,19 +267,6 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
             }
         }
     }
-}
-
-void drawCollision(CollisionBlock collisions[]) {
-    for(int i = 0; i < MAX_STATIC_COLLISIONS; i++) {
-        al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,5,5));
-    }
-
-    for(int i = 66; i < MAX_COLLISIONS; i++) {
-        al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,225,5));
-    }
-
-    int n = 66;
-    al_draw_filled_rectangle(collisions[n].topLeftX, collisions[n].topLeftY, collisions[n].bottomRightX, collisions[n].bottomRightY, al_map_rgb(225,5,5));
 }
 
 /*

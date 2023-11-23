@@ -72,7 +72,7 @@ bool initializeGame(ALLEGRO_DISPLAY* display, ALLEGRO_EVENT_QUEUE* queue, ALLEGR
 * Função que encerra o jogo por completo, utilizando os métodos nativos do Allegro para "destruir"
 * as variáveis instanciadas que alocaram memória.
 */
-void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* menuBackground, ALLEGRO_BITMAP* menuBackgroundContinue, ALLEGRO_BITMAP* tutorialBackground, ALLEGRO_BITMAP* menuSelectGenderBoy, ALLEGRO_BITMAP* menuSelectGenderGirl, ALLEGRO_BITMAP* pauseBackground, ALLEGRO_BITMAP** movementList, ALLEGRO_MIXER* mixer, Challenge* challengeList, ALLEGRO_BITMAP* snorlax, ALLEGRO_BITMAP* snorlaxBridge) {
+void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO_AUDIO_STREAM* music, ALLEGRO_BITMAP* background, ALLEGRO_BITMAP* menuBackground, ALLEGRO_BITMAP* menuBackgroundContinue, ALLEGRO_BITMAP* tutorialBackground, ALLEGRO_BITMAP* menuSelectGenderBoy, ALLEGRO_BITMAP* menuSelectGenderGirl, ALLEGRO_BITMAP* pauseBackground, ALLEGRO_BITMAP** movementList, ALLEGRO_MIXER* mixer, Challenge* challengeList) {
     printf("- [SHUTDOWN]     -> | Destruindo todas as alocacoes de memoria...\n");
 
     if (challengeList != NULL && sizeof(challengeList) == MAX_QUESTIONS) {
@@ -100,9 +100,8 @@ void initializeDestruction(ALLEGRO_DISPLAY* display, ALLEGRO_FONT* font, ALLEGRO
     if (background != NULL) al_destroy_bitmap(background);
     if (menuBackground != NULL) al_destroy_bitmap(menuBackground);
     if (menuBackgroundContinue != NULL) al_destroy_bitmap(menuBackgroundContinue);
-    if (tutorialBackground != tutorialBackground) al_destroy_bitmap(tutorialBackground);
-
-    if (snorlax != NULL) al_destroy_bitmap(snorlax);
+    if (tutorialBackground != NULL) al_destroy_bitmap(tutorialBackground);
+    if (pauseBackground != NULL) al_destroy_bitmap(pauseBackground);
 
     al_uninstall_keyboard();
     al_uninstall_audio();

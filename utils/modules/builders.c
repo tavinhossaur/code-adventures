@@ -224,14 +224,14 @@ Challenge * getChallenges() {
 
     list[7].correctAnswer = C;
 
-    list[8].questionText[0] = "'No coração de Kanto, sob o sol escaldante,";
+    list[8].questionText[0] = "\"No coração de Kanto, sob o sol escaldante,";
     list[8].questionText[1] = "Nas entranhas da região, há um número intrigante.";
-    list[8].questionText[2] = "Se trata do primeiro múltiplo de 5 que possui o mesmo resto por 2 que a quantidade total de Pokémons de Kanto,";
+    list[8].questionText[2] = "Se trata do primeiro múltiplo de 5 que possui o mesmo valor do resultado multiplicado por 5 do resto por 2 da quantidade total de Pokémons de Kanto";
     list[8].questionText[3] = "Adicionado ao dobro da quantidade de Pokémons Lendários que nos traz tanto encanto.";
     list[8].questionText[4] = "E ao adicionar o número de letras em 'Pikachu',";
     list[8].questionText[5] = "E subtrair o número de letras em 'Squirtle',";
     list[8].questionText[6] = "Você chegará à suprema resposta final,";
-    list[8].questionText[7] = "E encontrará a chave para abrir esta entrada especial.'";
+    list[8].questionText[7] = "E encontrará a chave para abrir esta entrada especial.\"";
 
     list[8].alternatives[0] = "5";
     list[8].alternatives[1] = "14";

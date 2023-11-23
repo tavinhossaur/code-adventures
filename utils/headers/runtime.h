@@ -1,4 +1,6 @@
-void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex);
+void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex, ALLEGRO_BITMAP* snorlax);
+
+void updateSnorlaxRoadblocksCollisions(int challengeIndex, CollisionBlock collisions[], Character character, bool blockedKey[]);
 
 void updateCharacterMovement(Character *character, int frameCounter, ALLEGRO_BITMAP **movementList, bool blockedKey[], unsigned char key[]);
 

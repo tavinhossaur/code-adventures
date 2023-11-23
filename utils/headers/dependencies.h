@@ -11,11 +11,11 @@
 #define MENU_SELECTOR_GENDER_GIRL "res/sprites/menu_gender_selection_girl.png"
 #define MENU_SELECTOR_GENDER_BOY "res/sprites/menu_gender_selection_boy.png"
 #define PAUSE_BACKGROUND "res/sprites/pause_background.png"
-#define CHALLENGE_BACKGROUND "res/sprites/challenges_background.png"
+#define CHALLENGE_BACKGROUND_BOY "res/sprites/challenges_background_boy.png"
+#define CHALLENGE_BACKGROUND_GIRL "res/sprites/challenges_background_girl.png"
 #define CREDITS_BACKGROUND "res/sprites/credits.png"
 #define DIALOG_BAR "res/sprites/interface/dialog_bar.png"
 #define ALERT_DIALOG "res/sprites/interface/alert_dialog.png"
-
 #define SNORLAX "res/sprites/snorlax.png"
 
 // Fonte
@@ -31,11 +31,8 @@
 
 // Limitadores
 #define MAX_FPS 60
-
-
 #define MAX_COLLISIONS 67
 #define MAX_STATIC_COLLISIONS 35
-
 #define MAX_HOUSES 9
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4

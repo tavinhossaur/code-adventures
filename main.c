@@ -55,11 +55,10 @@ int main() {
     ALLEGRO_BITMAP* menuSelectGenderBoy = al_load_bitmap(MENU_SELECTOR_GENDER_BOY);
     ALLEGRO_BITMAP* menuSelectGenderGirl = al_load_bitmap(MENU_SELECTOR_GENDER_GIRL);
     ALLEGRO_BITMAP* pauseBackground = al_load_bitmap(PAUSE_BACKGROUND);
-    ALLEGRO_BITMAP* challengeBackground = al_load_bitmap(CHALLENGE_BACKGROUND);
+    ALLEGRO_BITMAP* challengeBackground = NULL;
     ALLEGRO_BITMAP* creditsBackground = al_load_bitmap(CREDITS_BACKGROUND);
     ALLEGRO_BITMAP* dialogBar = al_load_bitmap(DIALOG_BAR);
     ALLEGRO_BITMAP* alertDialog = al_load_bitmap(ALERT_DIALOG);
-
     ALLEGRO_BITMAP* snorlax = al_load_bitmap(SNORLAX);
 
     ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream(MUSIC_THEME, SONG_BUFFER, SAMPLES);
@@ -105,7 +104,7 @@ int main() {
                     cursorPosition--;
                 }
             } else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList, snorlax);
+                initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList);
                 return 0;
             } else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                 if (cursorPosition < strlen(inputText)) {
@@ -157,7 +156,7 @@ int main() {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             // Encerra o jogo limpando as funções que consomem memória
-            initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList, snorlax);
+            initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList);
             return 0;
             break;
 
@@ -212,6 +211,8 @@ int main() {
 
                             // Carregando a lista de bitmaps dos movimentos do personagem com base no gênero escolhido
                             movementList = getCharacterMovementSprites(gender);
+
+                            challengeBackground = gender == BOY ? al_load_bitmap(CHALLENGE_BACKGROUND_BOY) : al_load_bitmap(CHALLENGE_BACKGROUND_GIRL);
 
                             collisions = getCollisionBlocks();
                             challengeList = getChallenges();
@@ -276,7 +277,7 @@ int main() {
                 al_draw_bitmap(background, 0, 0, 0);
 
                 // Desenha os snorlax de acordo com o desafio
-                switch(challengeIndex){
+                switch(challengeIndex) {
                 case 0:
                     al_draw_bitmap(snorlax, 203, 199, 0);
                     al_draw_bitmap(snorlax, 207, 294, 0);
@@ -383,9 +384,6 @@ int main() {
                 if(mouseClickPositionX >= 554 && mouseClickPositionX <= 745 && mouseClickPositionY >= 580 && mouseClickPositionY <= 624) {
                     screen = PAUSE_SCREEN;
                 }
-
-//                mouseClickPositionX = 0;
-//                mouseClickPositionY = 0;
 
                 // Verifica se o jogador está tentando entrar em qualquer uma das casas que ele já não acessou anteriormente
                 if (key[ALLEGRO_KEY_E]) {
@@ -534,7 +532,14 @@ int main() {
                         challengeList[challengeIndex].isChallengeCompleted = 1;
                         houses[challengeIndex].alreadyEntered = true;
                         currentQuoteIndex = 0;
-                        screen = GAME_SCREEN;
+
+                        if (challengeIndex == 8) {
+                            printf("- [GAME_RUNTIME] -> | Fim de Jogo! Obrigado por jogar, %s!\n", character.name);
+                            screen = CREDITS_SCREEN;
+                            isGameAlreadyStarted = false;
+                        } else {
+                            screen = GAME_SCREEN;
+                        }
                     }
                 }
 

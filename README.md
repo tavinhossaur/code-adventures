@@ -22,3 +22,7 @@ If you do not have Code::Blocks installed and configured with the MinGW compiler
 6. run `CodeAdventures.exe` and have fun!
 
 At the moment, the game's text is entirely in Brazilian Portuguese.
+
+## Future of this project
+
+This is a school project, which means it's gonna probably be forgotten in the near future. But, if you want to improve it, feel free to do it or maybe even remake it in a object oriented language.
