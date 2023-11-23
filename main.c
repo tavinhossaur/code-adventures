@@ -60,6 +60,8 @@ int main() {
     ALLEGRO_BITMAP* dialogBar = al_load_bitmap(DIALOG_BAR);
     ALLEGRO_BITMAP* alertDialog = al_load_bitmap(ALERT_DIALOG);
 
+    ALLEGRO_BITMAP* snorlax = al_load_bitmap(SNORLAX);
+
     ALLEGRO_AUDIO_STREAM* music = al_load_audio_stream(MUSIC_THEME, SONG_BUFFER, SAMPLES);
     ALLEGRO_FONT* font = al_load_ttf_font(TEXT_FONT, FONT_SIZE, 0);
     ALLEGRO_FONT* secondaryFont = al_load_ttf_font(TEXT_FONT, SECONDARY_FONT_SIZE, 0);
@@ -73,7 +75,6 @@ int main() {
 
     // Inicializando a música do jogo
     if (initializeMusic(voice, mixer, music)) printf("- Musica carregada com sucesso.\n");
-
     // Começando timer do jogo
     al_start_timer(timer);
 
@@ -104,7 +105,7 @@ int main() {
                     cursorPosition--;
                 }
             } else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-                initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList);
+                initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList, snorlax);
                 return 0;
             } else if (event.keyboard.keycode == ALLEGRO_KEY_RIGHT) {
                 if (cursorPosition < strlen(inputText)) {
@@ -156,7 +157,7 @@ int main() {
 
         case ALLEGRO_EVENT_DISPLAY_CLOSE:
             // Encerra o jogo limpando as funções que consomem memória
-            initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList);
+            initializeDestruction(display, font, music, background, menuBackground, menuBackgroundContinue, tutorialBackground, menuSelectGenderBoy, menuSelectGenderGirl, pauseBackground, movementList, mixer, collisions, challengeList, snorlax);
             return 0;
             break;
 
@@ -267,13 +268,87 @@ int main() {
                         mouseClickPositionX = 0;
                         mouseClickPositionY = 0;
                     }
-
                 }
                 break;
 
             case GAME_SCREEN:
                 // Desenha o mapa
                 al_draw_bitmap(background, 0, 0, 0);
+
+                // Desenha os snorlax de acordo com o desafio
+                switch(challengeIndex){
+                case 0:
+                    al_draw_bitmap(snorlax, 203, 199, 0);
+                    al_draw_bitmap(snorlax, 207, 294, 0);
+                    al_draw_bitmap(snorlax, 207, 323, 0);
+                    al_draw_bitmap(snorlax, 207, 352, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    break;
+
+                case 1:
+                    al_draw_bitmap(snorlax, 334, 195, 0);
+                    al_draw_bitmap(snorlax, 334, 220, 0);
+                    al_draw_bitmap(snorlax, 207, 294, 0);
+                    al_draw_bitmap(snorlax, 207, 323, 0);
+                    al_draw_bitmap(snorlax, 207, 352, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    break;
+
+                case 2:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 207, 294, 0);
+                    al_draw_bitmap(snorlax, 207, 323, 0);
+                    al_draw_bitmap(snorlax, 207, 352, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    break;
+
+                case 3:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 318, 324, 0);
+                    al_draw_bitmap(snorlax, 318, 348, 0);
+                    al_draw_bitmap(snorlax, 318, 375, 0);
+                    al_draw_bitmap(snorlax, 266, 400, 0);
+                    al_draw_bitmap(snorlax, 289, 400, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    break;
+
+                case 4:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 430, 351, 0);
+                    al_draw_bitmap(snorlax, 430, 375, 0);
+                    al_draw_bitmap(snorlax, 266, 400, 0);
+                    al_draw_bitmap(snorlax, 289, 400, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    break;
+
+                case 5:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 586, 430, 0);
+                    al_draw_bitmap(snorlax, 119, 396, 0);
+                    al_draw_bitmap(snorlax, 144, 396, 0);
+                    al_draw_bitmap(snorlax, 266, 400, 0);
+                    al_draw_bitmap(snorlax, 289, 400, 0);
+                    break;
+
+                case 6:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 335, 464, 0);
+                    al_draw_bitmap(snorlax, 335, 489, 0);
+                    al_draw_bitmap(snorlax, 586, 430, 0);
+                    break;
+
+                case 7:
+                    al_draw_bitmap(snorlax, 364, 22, 0);
+                    al_draw_bitmap(snorlax, 408, 464, 0);
+                    al_draw_bitmap(snorlax, 408, 489, 0);
+                    al_draw_bitmap(snorlax, 586, 430, 0);
+                    break;
+                }
 
                 if (challengeList[challengeIndex].isChallengeCompleted == 1) {
                     printf("- [GAME_RUNTIME] -> | Resposta correta! Prossiga para uma casa ainda nao visitada!\n");
@@ -290,7 +365,7 @@ int main() {
                 }
 
                 // Lógica de detecção de colisões
-                runCollisionDetection(collisions, character, blockedKey);
+                runCollisionDetection(collisions, character, blockedKey, challengeIndex);
 
                 // Lógica de movimentação com animação baseada na direção e FPS
                 updateCharacterMovement(&character, frameCounter, movementList, blockedKey, key);
@@ -309,8 +384,8 @@ int main() {
                     screen = PAUSE_SCREEN;
                 }
 
-                mouseClickPositionX = 0;
-                mouseClickPositionY = 0;
+//                mouseClickPositionX = 0;
+//                mouseClickPositionY = 0;
 
                 // Verifica se o jogador está tentando entrar em qualquer uma das casas que ele já não acessou anteriormente
                 if (key[ALLEGRO_KEY_E]) {
@@ -327,9 +402,11 @@ int main() {
                 }
 
                 // DEBBUGING
+
                 // Desenha todas as colisões (não estará na versão final do jogo)
                 // drawCollision(houses); (COMENTE TODOS OS "FALSES" EM runtime.c -> getHouses() E COMENTE "bool alreadyEntered;" EM dependencies.h -> HouseDoor)
                 // drawCollision(collisions);
+                // al_draw_textf(font, al_map_rgb(255, 255, 255), 198, DISPLAY_HEIGHT - 40, 1, "x: %d / y: %d", mouseClickPositionX, mouseClickPositionY);
 
                 break;
 

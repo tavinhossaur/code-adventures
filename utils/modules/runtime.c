@@ -76,7 +76,7 @@ void updateCharacterMovement(Character *character, int frameCounter, ALLEGRO_BIT
 * Função que carrega todas as colisões do jogo no loop principal. Recebendo a lista de colisões,
 * o personagem e o array booleano para controlar o bloqueio do movimento do personagem.
 */
-void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[]) {
+void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex) {
     // Colisões externas
     if(character.posX <= 1) blockedKey[KEY_A] = true;
 
@@ -86,7 +86,7 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
 
     if(character.posY >= DISPLAY_HEIGHT - 1) blockedKey[KEY_S] = true;
 
-    for (int i = 0; i < MAX_COLLISIONS; ++i) {
+    for (int i = 0; i < MAX_STATIC_COLLISIONS; ++i) {
         if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
             if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
 
@@ -95,19 +95,167 @@ void runCollisionDetection(CollisionBlock collisions[], Character character, boo
             if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
 
             if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+        }
+    }
 
-            // Permite pular os limites de terra (morros)
-            if(character.posY >= collisions[18].topLeftY - 1 && character.posY <= collisions[18].topLeftY) blockedKey[KEY_S] = false;
-            if(character.posY >= collisions[19].topLeftY - 1 && character.posY <= collisions[19].topLeftY) blockedKey[KEY_S] = false;
-            if(character.posY >= collisions[20].topLeftY - 1 && character.posY <= collisions[20].topLeftY) blockedKey[KEY_S] = false;
+    //Colisao da cerca que desativa para liberar o caminho para a caverna apos completar os 9 desafios
+    if (challengeIndex != 8){
+        if (character.posX >= collisions[35].topLeftX && character.posX <= collisions[35].bottomRightX && character.posY >= collisions[35].topLeftY && character.posY <= collisions[35].bottomRightY) {
+            if(character.posX >= collisions[35].topLeftX - 1 && character.posX <= collisions[35].topLeftX) blockedKey[KEY_D] = true;
+
+            if(character.posY >= collisions[35].topLeftY - 1 && character.posY <= collisions[35].topLeftY) blockedKey[KEY_S] = true;
+
+            if(character.posX <= collisions[35].bottomRightX + 1 && character.posX >= collisions[35].bottomRightX) blockedKey[KEY_A] = true;
+
+            if(character.posY <= collisions[35].bottomRightY + 1 && character.posY >= collisions[35].bottomRightY) blockedKey[KEY_W] = true;
+        }
+    } else {
+        if (character.posX >= collisions[66].topLeftX && character.posX <= collisions[66].bottomRightX && character.posY >= collisions[66].topLeftY && character.posY <= collisions[66].bottomRightY) {
+            if(character.posX >= collisions[66].topLeftX - 1 && character.posX <= collisions[66].topLeftX) blockedKey[KEY_D] = true;
+
+            if(character.posY >= collisions[66].topLeftY - 1 && character.posY <= collisions[66].topLeftY) blockedKey[KEY_S] = true;
+
+            if(character.posX <= collisions[66].bottomRightX + 1 && character.posX >= collisions[66].bottomRightX) blockedKey[KEY_A] = true;
+
+            if(character.posY <= collisions[66].bottomRightY + 1 && character.posY >= collisions[66].bottomRightY) blockedKey[KEY_W] = true;
+        }
+
+        if (character.posX >= collisions[65].topLeftX && character.posX <= collisions[65].bottomRightX && character.posY >= collisions[65].topLeftY && character.posY <= collisions[65].bottomRightY) {
+            if(character.posX >= collisions[65].topLeftX - 1 && character.posX <= collisions[65].topLeftX) blockedKey[KEY_D] = true;
+
+            if(character.posY >= collisions[65].topLeftY - 1 && character.posY <= collisions[65].topLeftY) blockedKey[KEY_S] = true;
+
+            if(character.posX <= collisions[65].bottomRightX + 1 && character.posX >= collisions[65].bottomRightX) blockedKey[KEY_A] = true;
+
+            if(character.posY <= collisions[65].bottomRightY + 1 && character.posY >= collisions[65].bottomRightY) blockedKey[KEY_W] = true;
+        }
+    }
+
+
+    //Colisao com as barreiras de snorlax de acordo com o index de desafio
+    switch(challengeIndex){
+    case 0:
+        for (int i = 36; i < 39; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+    case 1:
+        for (int i = 39; i < 42; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 2:
+        for (int i = 42; i < 45; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 3:
+        for (int i = 45; i < 49; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 4:
+        for (int i = 49; i < 53; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 5:
+        for (int i = 53; i < 57; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 6:
+        for (int i = 57; i < 60; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
+        }
+        break;
+
+    case 7:
+        for (int i = 60; i < 63; ++i) {
+            if (character.posX >= collisions[i].topLeftX && character.posX <= collisions[i].bottomRightX && character.posY >= collisions[i].topLeftY && character.posY <= collisions[i].bottomRightY) {
+                if(character.posX >= collisions[i].topLeftX - 1 && character.posX <= collisions[i].topLeftX) blockedKey[KEY_D] = true;
+
+                if(character.posY >= collisions[i].topLeftY - 1 && character.posY <= collisions[i].topLeftY) blockedKey[KEY_S] = true;
+
+                if(character.posX <= collisions[i].bottomRightX + 1 && character.posX >= collisions[i].bottomRightX) blockedKey[KEY_A] = true;
+
+                if(character.posY <= collisions[i].bottomRightY + 1 && character.posY >= collisions[i].bottomRightY) blockedKey[KEY_W] = true;
+            }
         }
     }
 }
 
 void drawCollision(CollisionBlock collisions[]) {
-    for(int i = 0; i < MAX_COLLISIONS; i++) {
+    for(int i = 0; i < MAX_STATIC_COLLISIONS; i++) {
         al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,5,5));
     }
+
+    for(int i = 66; i < MAX_COLLISIONS; i++) {
+        al_draw_filled_rectangle(collisions[i].topLeftX, collisions[i].topLeftY, collisions[i].bottomRightX, collisions[i].bottomRightY, al_map_rgb(5,225,5));
+    }
+
+    int n = 66;
+    al_draw_filled_rectangle(collisions[n].topLeftX, collisions[n].topLeftY, collisions[n].bottomRightX, collisions[n].bottomRightY, al_map_rgb(225,5,5));
 }
 
 /*

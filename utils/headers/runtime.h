@@ -1,4 +1,4 @@
-void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[]);
+void runCollisionDetection(CollisionBlock collisions[], Character character, bool blockedKey[], int challengeIndex);
 
 void updateCharacterMovement(Character *character, int frameCounter, ALLEGRO_BITMAP **movementList, bool blockedKey[], unsigned char key[]);
 

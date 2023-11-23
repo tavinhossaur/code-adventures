@@ -16,6 +16,8 @@
 #define DIALOG_BAR "res/sprites/interface/dialog_bar.png"
 #define ALERT_DIALOG "res/sprites/interface/alert_dialog.png"
 
+#define SNORLAX "res/sprites/snorlax.png"
+
 // Fonte
 #define TEXT_FONT "res/fonts/Monaco.ttf"
 #define FONT_SIZE 20
@@ -29,7 +31,11 @@
 
 // Limitadores
 #define MAX_FPS 60
-#define MAX_COLLISIONS 36
+
+
+#define MAX_COLLISIONS 67
+#define MAX_STATIC_COLLISIONS 35
+
 #define MAX_HOUSES 9
 #define MAX_MOVEMENTS 12
 #define MAX_MOVEMENT_KEYS 4

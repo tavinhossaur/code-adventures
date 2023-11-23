@@ -6,7 +6,7 @@
 
 #include "../headers/dependencies.h"
 
-#define COLLISION_DATABASE "res/database/collision_data.csv"
+#define COLLISION_DATABASE "res/database/collision_dataNEW.csv"
 
 #define MAX_LENGTH 50
 #define MAX_VALUES 4
